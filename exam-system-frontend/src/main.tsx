@@ -8,6 +8,8 @@ import "@ant-design/v5-patch-for-react-19";
 import Edit from "./pages/edit";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Exam from "./pages/exam";
+import { Res } from "./pages/res";
 
 const routes = [
   {
@@ -29,6 +31,14 @@ const routes = [
   {
     path: "edit/:id",
     element: <Edit />,
+  },
+  {
+    path: "exam/:id",
+    element: <Exam />,
+  },
+  {
+    path: "res/:id",
+    element: <Res />,
   },
 ];
 const router = createBrowserRouter(routes);

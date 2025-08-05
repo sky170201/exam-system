@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./index.css";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   InputNumber,
   Segmented,
   message,
+  Space,
 } from "antd";
 import { MaterialItem } from "./Material";
 import { useDrop } from "react-dnd";
@@ -91,7 +92,7 @@ function Edit() {
     }
   }
 
-  let { id } = useParams();
+  const { id } = useParams();
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ["单选题", "多选题", "填空题"],
     drop: (item: { type: string }) => {
@@ -176,17 +177,22 @@ function Edit() {
     <div id="edit-container">
       <div className="header">
         <div>试卷编辑器</div>
-        <Button
-          type="default"
-          onClick={() => {
-            setPreviewModalOpen(true);
-          }}
-        >
-          预览
-        </Button>
-        <Button type="primary" onClick={saveExam}>
-          保存
-        </Button>
+        <Space>
+          <Button
+            type="default"
+            onClick={() => {
+              setPreviewModalOpen(true);
+            }}
+          >
+            预览
+          </Button>
+          <Button type="primary" onClick={saveExam}>
+            保存
+          </Button>
+          <Button type="default">
+            <Link to="/">返回</Link>
+          </Button>
+        </Space>
       </div>
       <div className="body">
         <div className="materials">

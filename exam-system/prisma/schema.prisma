@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// answer 和 user 还有 exam 都是多对一关系
 model User {
   id  Int @id @default(autoincrement())
   username String @db.VarChar(50) @unique
@@ -15,8 +16,8 @@ model User {
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt
 
-  // 多对一的关联
   exams  Exam[]
+  answers Answer[]
 }
 
 model Exam {
@@ -30,4 +31,21 @@ model Exam {
 
   createUserId Int
   createUser     User  @relation(fields: [createUserId], references: [id])
+
+  answers Answer[]
+}
+
+
+model Answer {
+  id  Int @id @default(autoincrement())
+  content String @db.Text 
+  score Int
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+
+  answererId Int
+  answerer     User  @relation(fields: [answererId], references: [id])
+
+  examId Int
+  exam     Exam  @relation(fields: [examId], references: [id])
 }

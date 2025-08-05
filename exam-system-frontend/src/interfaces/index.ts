@@ -79,7 +79,7 @@ const responseErrorIntercepor = async (error: any) => {
     if(!error.response) {
         return Promise.reject(error);
     }
-    let { data } = error.response;
+    const { data } = error.response;
     if (data.statusCode === 401) {
         message.error(data.message);
 
@@ -122,4 +122,41 @@ export async function examFind(id: number) {
 
 export async function examSave(data: { id: number, content: string}) {
     return await examServiceInstance.post('/exam/save', data);
+}
+const answerServiceInstance = axios.create({
+    baseURL: 'http://localhost:3003/',
+    timeout: 3000
+});
+
+answerServiceInstance.interceptors.request.use(requestInterceptor)
+
+answerServiceInstance.interceptors.response.use(
+    responseIntercepor, 
+    responseErrorIntercepor
+)
+
+export async function answerAdd(data: { examId: number, content: string}) {
+    return await answerServiceInstance.post('/answer/add', data);
+}
+export async function answerFind(id: number) {
+    return await answerServiceInstance.get('/answer/find/' + id);
+}
+const analyseServiceInstance = axios.create({
+    baseURL: 'http://localhost:3004/',
+    timeout: 3000
+});
+
+analyseServiceInstance.interceptors.request.use(requestInterceptor)
+
+analyseServiceInstance.interceptors.response.use(
+    responseIntercepor, 
+    responseErrorIntercepor
+)
+
+export async function ranking(examId: number) {
+    return await analyseServiceInstance.get('/analyse/ranking', {
+        params: {
+            examId
+        }
+    });
 }
